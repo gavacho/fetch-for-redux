@@ -54,7 +54,7 @@ The response object has three properties (`status`, `headers` and `body`).
 
 The `status` property will always be a javascript Number.
 
-The `headers` property will always be a javascript Object with lowercased header names as keys and an array of string as values.
+The `headers` property will always be a javascript Object with lowercased header names as keys and an array of Strings as values.
 
 The `body` property will be a String unless the response's `Content-Type` header indicates a JSON response.
 
@@ -102,23 +102,23 @@ const initialState = {
 
 export default function someReducer(state = initialState, action = {}) {
   switch(action.type) {
-    case 'SOME_REQUEST_SENT':
+    case 'WIDGETS_REQUEST_SENT':
       return {
         ...state,
         isFetching: true,
       };
 
-    case 'SOME_RESPONSE_RECEIVED':
+    case 'WIDGETS_RESPONSE_RECEIVED':
       // Here we can inspect the status code to
       // know what kind of response we received.
-      if (action.payload.response.status === 200) (
+      if (action.payload.response.status === 200) {
         return {
           ...state,
           isFetching: false,
           things: action.payload.response.body.widgets,
           errorMessage: null,
         };
-      )
+      }
 
       return {
         ...state,
