@@ -1,0 +1,11 @@
+{
+  "spec_dir": ".",
+  "spec_files": [
+    "index-spec.js"
+  ],
+  "helpers": [
+    "node_modules/isomorphic-fetch/fetch-npm-node.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}

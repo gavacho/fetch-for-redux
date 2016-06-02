@@ -1,0 +1,45 @@
+{
+  "name": "fetch-for-redux",
+  "version": "1.0.0",
+  "description": "fetches ajax responses suitable for dispatching in a redux action",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run -s test:eslint && npm run -s test:jasmine",
+    "test:eslint": "eslint .",
+    "test:jasmine": "JASMINE_CONFIG_PATH=./jasmine.json jasmine"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavacho/fetch-for-redux.git"
+  },
+  "keywords": [
+    "fetch",
+    "ajax",
+    "redux"
+  ],
+  "author": "Ken Browning",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavacho/fetch-for-redux/issues"
+  },
+  "homepage": "https://github.com/gavacho/fetch-for-redux#readme",
+  "devDependencies": {
+    "eslint": "2.11.1",
+    "eslint-config-google": "0.5.0",
+    "isomorphic-fetch": "2.2.1",
+    "jasmine": "2.4.1"
+  },
+  "eslintConfig": {
+    "extends": "google",
+    "globals": {
+      "fetch": true
+    },
+    "rules": {
+      "max-len": "off",
+      "require-jsdoc": "off"
+    }
+  }
+}
