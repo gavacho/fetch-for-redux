@@ -50,7 +50,7 @@ Instead of an instance of [`Response`](https://developer.mozilla.org/en-US/docs/
 }
 ```
 
-The response object has three properties (`status`, `headers` and `body`).
+The response object has three properties: `status`, `headers` & `body`.
 
 The `status` property will always be a javascript Number.
 
