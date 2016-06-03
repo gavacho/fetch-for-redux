@@ -23,58 +23,51 @@ describe('fetchForRedux', function() {
   });
 
   describe('the result when fetch resolves with a response', function() {
-    it('has a status property', function(done) {
-      fetchForRedux(urls.text).then(function(response) {
+    it('has a status property', function() {
+      return fetchForRedux(urls.text).then(function(response) {
         expect(response.status).toEqual(200);
-        done();
       });
     });
 
-    it('has a headers property', function(done) {
-      fetchForRedux(urls.text).then(function(response) {
+    it('has a headers property', function() {
+      return fetchForRedux(urls.text).then(function(response) {
         expect(response.headers['content-type']).toEqual([
           'text/html; charset=UTF-8'
         ]);
-        done();
       });
     });
 
-    it('has a body property whose type is string', function(done) {
-      fetchForRedux(urls.text).then(function(response) {
+    it('has a body property whose type is string', function() {
+      return fetchForRedux(urls.text).then(function(response) {
         expect(typeof response.body).toEqual('string');
         expect(response.body.length).not.toEqual(0);
-        done();
       });
     });
 
-    it('has a body property whose type is object when the response is json', function(done) {
-      fetchForRedux(urls.json).then(function(response) {
+    it('has a body property whose type is object when the response is json', function() {
+      return fetchForRedux(urls.json).then(function(response) {
         expect(response.body._links.self).toEqual({href: urls.json});
-        done();
       });
     });
   });
 
   describe('the result when fetch rejects with an error', function() {
-    it('has a status property with value of 0', function(done) {
-      fetchForRedux(urls.failure).then(function(response) {
+    it('has a status property with value of 0', function() {
+      return fetchForRedux(urls.failure).then(function(response) {
         expect(response.status).toEqual(0);
-        done();
       });
     });
 
-    it('has a headers property', function(done) {
-      fetchForRedux(urls.failure).then(function(response) {
+    it('has a headers property', function() {
+      return fetchForRedux(urls.failure).then(function(response) {
         expect(typeof response.headers).toEqual('object');
-        done();
       });
     });
 
-    it('has a body property with the error message', function(done) {
+    it('has a body property with the error message', function() {
       spyOn(global, 'fetch').and.returnValue(Promise.reject(new Error('an example error message')));
-      fetchForRedux(urls.failure).then(function(response) {
+      return fetchForRedux(urls.failure).then(function(response) {
         expect(response.body).toEqual('an example error message');
-        done();
       });
     });
   });

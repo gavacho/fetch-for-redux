@@ -4,7 +4,8 @@
     "index-spec.js"
   ],
   "helpers": [
-    "node_modules/isomorphic-fetch/fetch-npm-node.js"
+    "node_modules/isomorphic-fetch/fetch-npm-node.js",
+    "node_modules/jasmine-promise/index.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false
