@@ -1,6 +1,6 @@
-module.exports = function fetchForRedux() {
+function fetchForRedux() {
   return fetch.apply(this, arguments).then(parseResponse, nullResponse);
-};
+}
 
 function parseResponse(response) {
   var isJson = isJsonContentType(response.headers.get('content-type'));
@@ -13,6 +13,10 @@ function parseResponse(response) {
   });
 }
 
+function isJsonContentType(contentType) {
+  return contentType.match(/\W*json\W*/i);
+}
+
 function parseHeaders(headers) {
   var result = {};
   headers.forEach(function(value, key) {
@@ -22,10 +26,6 @@ function parseHeaders(headers) {
   return result;
 }
 
-function isJsonContentType(contentType) {
-  return contentType.match(/\W*json\W*/i);
-}
-
 function nullResponse(error) {
   return {
     status: 0,
@@ -33,3 +33,5 @@ function nullResponse(error) {
     body: error.message
   };
 }
+
+module.exports = fetchForRedux;
