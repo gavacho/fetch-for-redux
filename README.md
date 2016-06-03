@@ -115,7 +115,7 @@ export default function someReducer(state = initialState, action = {}) {
         return {
           ...state,
           isFetching: false,
-          things: action.payload.response.body.widgets,
+          widgets: action.payload.response.body.widgets,
           errorMessage: null,
         };
       }
