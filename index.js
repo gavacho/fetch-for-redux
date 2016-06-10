@@ -18,17 +18,18 @@ function isJsonContentType(contentType) {
 }
 
 function parseHeaders(headers) {
-  try {
+  if (typeof Symbol !== 'undefined' && typeof headers[Symbol.iterator] === 'function') {
     return parseHeadersViaIterator(headers);
-  } catch (err) {
-    // node-fetch does not have an iterator
-    return parseHeadersViaForEach(headers);
   }
+
+  // node-fetch does not have an iterator
+  return parseHeadersViaForEach(headers);
 }
 
 function parseHeadersViaIterator(headers) {
   var result = {};
-  for (var headerTuple of headers) {
+  for (var _iterator = headers[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var headerTuple = _step.value;
     var key = headerTuple[0];
     var value = headerTuple[1];
     result[key] = result[key] || [];
