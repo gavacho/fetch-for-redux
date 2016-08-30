@@ -3,7 +3,7 @@ function fetchForRedux() {
 }
 
 function parseResponse(response) {
-  var isJson = isJsonContentType(response.headers.get('content-type'));
+  var isJson = isJsonContentType(response.headers.getAll('content-type'));
   return response[isJson ? 'json' : 'text']().then(function(body) {
     return {
       status: response.status,
@@ -13,8 +13,8 @@ function parseResponse(response) {
   });
 }
 
-function isJsonContentType(contentType) {
-  return contentType.match(/\W*json\W*/i);
+function isJsonContentType(contentTypes) {
+  return contentTypes.reduce((hasMatched, contentType) => hasMatched || contentType.match(/\W*json\W*/i), false);
 }
 
 function parseHeaders(headers) {
