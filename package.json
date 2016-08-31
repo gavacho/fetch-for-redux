@@ -1,6 +1,6 @@
 {
   "name": "fetch-for-redux",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "fetches ajax responses suitable for dispatching in a redux action",
   "main": "index.js",
   "scripts": {
