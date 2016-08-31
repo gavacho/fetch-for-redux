@@ -14,7 +14,9 @@ function parseResponse(response) {
 }
 
 function isJsonContentType(contentTypes) {
-  return contentTypes.reduce((hasMatched, contentType) => hasMatched || contentType.match(/\W*json\W*/i), false);
+  return contentTypes.reduce(function(hasMatched, contentType) {
+    return hasMatched || contentType.match(/\W*json\W*/i);
+  }, false);
 }
 
 function parseHeaders(headers) {
