@@ -1,6 +1,7 @@
 /* eslint-env jasmine */
 
 var fetchForRedux = require('./index');
+var withServer = require('./with-server');
 
 var urls = {
   json: 'https://www.hautelook.com/api',
@@ -31,9 +32,16 @@ describe('fetchForRedux', function() {
 
     it('has a headers property', function() {
       return fetchForRedux(urls.text).then(function(response) {
-        expect(response.headers['content-type']).toEqual([
-          'text/html; charset=UTF-8'
-        ]);
+        expect(response.headers['content-type']).toEqual('text/html; charset=UTF-8');
+      });
+    });
+
+    it('combines headers correctly', function() {
+      return withServer(9234, function() {
+        return fetchForRedux('http://localhost:9234/').then(function(response) {
+          expect(response.headers.single).toEqual('a single value');
+          expect(response.headers.double).toEqual('the first value, the second value');
+        });
       });
     });
 

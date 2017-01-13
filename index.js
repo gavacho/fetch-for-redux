@@ -1,52 +1,45 @@
-function fetchForRedux() {
+module.exports = function fetchForRedux() {
   return fetch.apply(this, arguments).then(parseResponse, nullResponse);
-}
+};
 
 function parseResponse(response) {
-  var isJson = isJsonContentType(response.headers.getAll('content-type'));
-  return response[isJson ? 'json' : 'text']().then(function(body) {
+  var headers = parseHeaders(response.headers);
+  var contentType = headers['content-type'] || '';
+  var awaitBody = response[contentType.match(/\W*json\W*/i) ? 'json' : 'text']();
+  return awaitBody.then(function(body) {
     return {
       status: response.status,
-      headers: parseHeaders(response.headers),
+      headers: headers,
       body: body
     };
   });
 }
 
-function isJsonContentType(contentTypes) {
-  return contentTypes.reduce(function(hasMatched, contentType) {
-    return hasMatched || contentType.match(/\W*json\W*/i);
-  }, false);
-}
-
 function parseHeaders(headers) {
-  if (typeof Symbol !== 'undefined' && typeof headers[Symbol.iterator] === 'function') {
-    return parseHeadersViaIterator(headers);
-  }
-
-  // node-fetch does not have an iterator
-  return parseHeadersViaForEach(headers);
-}
-
-function parseHeadersViaIterator(headers) {
   var result = {};
-  for (var _iterator = headers[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var headerTuple = _step.value;
-    var key = headerTuple[0];
-    var value = headerTuple[1];
-    result[key] = result[key] || [];
-    result[key].push(value);
-  }
-  return result;
-}
-
-function parseHeadersViaForEach(headers) {
-  var result = {};
-  headers.forEach(function(value, key) {
-    result[key] = result[key] || [];
-    result[key].push(value);
+  forEachHeader(headers, function(value, unnormalizedKey) {
+    var key = unnormalizedKey.toLowerCase();
+    if (result[key] === undefined) {
+      result[key] = value;
+    } else {
+      result[key] += ', ' + value;
+    }
   });
   return result;
+}
+
+function forEachHeader(headers, iteratee) {
+  if (typeof Symbol !== 'undefined' && typeof Symbol.iterator !== 'undefined' && headers[Symbol.iterator]) {
+    for (var _iterator = headers[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+      iteratee(_step.value[1], _step.value[0]);
+    }
+    return;
+  }
+  if (headers.forEach) {
+    headers.forEach(iteratee);
+    return;
+  }
+  throw new Error('fetch-for-redux was unable to iterate the specified headers');
 }
 
 function nullResponse(error) {
@@ -56,5 +49,3 @@ function nullResponse(error) {
     body: error.message
   };
 }
-
-module.exports = fetchForRedux;
