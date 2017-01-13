@@ -11,9 +11,7 @@ Instead of an instance of [`Response`](https://developer.mozilla.org/en-US/docs/
   "status": 200,
   "headers": {
     //_other_headers_not_shown
-    "content-type": [
-      "application/json; charset=utf-8"
-    ]
+    "content-type": "application/json; charset=utf-8"
   },
   "body": {
     "login": "gavacho",
@@ -131,3 +129,9 @@ export default function someReducer(state = initialState, action = {}) {
   }
 }
 ```
+
+## CHANGELOG
+
+#### v2.0.0
+##### Breaking Changes
+- The fetch spec was updated to specify how headers with the same name/key should be combined into a single header value.  This library will now return responses with single values for headers instead of an array of values.
